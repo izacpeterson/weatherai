@@ -4,18 +4,15 @@ import { getWeatherDescription } from "$lib/server/gpt";
 import { getVoice } from "$lib/server/voice";
 import { uploadToday, getFile } from "$lib/server/firebase";
 
+import { generateVoiceWeather } from "$lib/server/generate";
+
 export async function GET({ url }) {
   let uploaded = await uploadToday();
 
-  let response = "";
-
   if (uploaded) {
-    response = await getWeatherDescription();
-    getVoice(response);
+    generateVoiceWeather();
+    return json({ message: "uploading" });
   } else {
-    console.log("already uploaded today");
-    response = "already uploaded today";
+    return json({ message: "already uploaded" });
   }
-
-  return json(response);
 }
