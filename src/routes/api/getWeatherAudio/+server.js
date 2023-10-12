@@ -9,7 +9,7 @@ import { generateVoiceWeather } from "$lib/server/generate";
 export async function GET({ url }) {
   let uploaded = await uploadToday();
 
-  if (uploaded) {
+  if (!uploaded) {
     generateVoiceWeather();
     return json({ message: "uploading" });
   } else {
